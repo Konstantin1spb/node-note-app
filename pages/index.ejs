@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link type="text/css" rel="stylesheet" href="css/style.css">
 	<title><%= title %></title>
 </head>
 <body>
@@ -18,11 +19,18 @@
 		<% if(notes.length) { %>
 		<ul>
 			<% for(let i = 0; i < notes.length; i++) { %>
-				<div style="display: flex; justify-content: space-between; width: 50%; margin-bottom: 10px;">
-					<li><%= notes[i].title %></li>
+				<div class="note">
+					<li class="defaults"><%= notes[i].title %></li>
+					<input class="for-edit" type="text" value="<%= notes[i].title %>">
 					<span>
-						<button data-type="edit" data-id="<%= notes[i].id %>">Edit</button>
-						<button data-type="remove" data-id="<%= notes[i].id %>">Del</button>
+						<span class="defaults">
+							<button data-type="edit" data-id="<%= notes[i].id %>">Edit</button>
+							<button data-type="remove" data-id="<%= notes[i].id %>">Del</button>
+						</span>
+						<span class="for-edit">
+							<button data-type="save" data-id="<%= notes[i].id %>">Save</button>
+							<button data-type="cancel" data-id="<%= notes[i].id %>">Cancel</button>
+						</span>
 					</span>
 				</div>
 			<% } %>

@@ -1,0 +1,22 @@
+.note {
+	display: flex;
+	justify-content: space-between;
+	width: 50%;
+	margin-bottom: 10px;
+}
+
+.for-edit {
+	display: none;
+}
+
+span.for-edit {
+	gap: 5px;
+}
+
+.editing .defaults {
+	display: none;
+}
+
+.editing .for-edit {
+	display: flex;
+}
