@@ -7,13 +7,24 @@ document.addEventListener('click', (event) => {
 	}
 
 	if (event.target.dataset.type === 'edit') {
+		event.target.closest('div').classList.add('editing');
+	}
+
+	if (event.target.dataset.type === 'save') {
 		const id = event.target.dataset.id;
-		const newTitle = prompt('Введите новое название заметки');
+		const newTitle = event.target.closest('div').children[1].value;
 		edit(id, newTitle).then(() => {
 			if (newTitle) {
 				event.target.closest('div').children[0].innerHTML = newTitle;
+				event.target.closest('div').classList.remove('editing');
 			}
 		});
+	}
+
+	if (event.target.dataset.type === 'cancel') {
+		event.target.closest('div').classList.remove('editing');
+		event.target.closest('div').children[1].value =
+			event.target.closest('div').children[0].innerHTML;
 	}
 });
 
