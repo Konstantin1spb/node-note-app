@@ -13,8 +13,12 @@
 			<input type="text" name="title" required>
 			<button type="submit">Create</button>
 		</form>
+		<a href="/logout">Logout</a>
 		<% if(created) { %>
 			<span>Note has been created</span>
+		<% } %>
+		<% if(error) { %>
+			<span>Something went wrong</span>
 		<% } %>
 		<% if(notes.length) { %>
 		<ul>
@@ -22,6 +26,7 @@
 				<div class="note">
 					<li class="defaults"><%= notes[i].title %></li>
 					<input class="for-edit" type="text" value="<%= notes[i].title %>">
+					<% if(notes[i].owner === userEmail) { %>
 					<span>
 						<span class="defaults">
 							<button data-type="edit" data-id="<%= notes[i].id %>">Edit</button>
@@ -32,6 +37,7 @@
 							<button data-type="cancel" data-id="<%= notes[i].id %>">Cancel</button>
 						</span>
 					</span>
+					<% } %>
 				</div>
 			<% } %>
 		</ul>

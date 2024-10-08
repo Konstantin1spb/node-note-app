@@ -1,54 +1,32 @@
-const fs = require('fs/promises');
-const path = require('path');
 const chalk = require('chalk');
+const Note = require('./models/Note');
 
-const notesPath = path.join(__dirname, 'db.json');
-
-const addNote = async (title) => {
-	const notes = await getNotes();
-	const note = {
-		title,
-		id: Date.now().toString(),
-	};
-	notes.push(note);
-	await fs.writeFile(notesPath, JSON.stringify(notes));
+const addNote = async (title, owner) => {
+	await Note.create({ title, owner });
 	console.log(chalk.bgGreen('Note added'));
 };
 
 const getNotes = async () => {
-	const notes = await fs.readFile(notesPath, { encoding: 'utf-8' });
-	return Array.isArray(JSON.parse(notes)) ? JSON.parse(notes) : [];
+	const notes = await Note.find();
+	return notes;
 };
 
-const printNotes = async () => {
-	const notes = await getNotes();
-	console.log(chalk.bgBlue('List of notes:'));
-	notes.forEach(({ title, id }) => console.log(chalk.blue(id, title)));
-};
+const removeNote = async (id, owner) => {
+	const result = await Note.deleteOne({ _id: id, owner });
 
-const removeNote = async (id) => {
-	const notes = await getNotes();
-	const noteIndexToRemove = notes.findIndex((note) => Number(note.id) === Number(id));
-
-	if (noteIndexToRemove !== -1) {
-		notes.splice(noteIndexToRemove, 1);
+	if (result.matchedCount === 0) {
+		throw new Error('No notes to delete');
 	}
-
-	await fs.writeFile(notesPath, JSON.stringify(notes));
 
 	console.log(chalk.bgGreen('Note removed'));
 };
 
-const editNote = async (id, newTitle) => {
-	const notes = await getNotes();
-	notes.find((note) => {
-		if (note.id === id) {
-			note.title = newTitle;
-			return true;
-		}
-	});
+const editNote = async (id, newTitle, owner) => {
+	const result = await Note.updateOne({ _id: id, owner }, { title: newTitle });
 
-	await fs.writeFile(notesPath, JSON.stringify(notes));
+	if (result.matchedCount === 0) {
+		throw new Error('No notes to edit');
+	}
 
 	console.log(chalk.bgGreen('Note edited'));
 };

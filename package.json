@@ -14,9 +14,14 @@
   "author": "Evlentev Konstantin <kevlen02@mail.ru>",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "chalk": "^4.1.2",
+    "cookie-parser": "^1.4.6",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.3",
+    "validator": "^13.12.0",
     "yargs": "^17.7.2"
   },
   "devDependencies": {
